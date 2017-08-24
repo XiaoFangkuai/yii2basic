@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Bubble;
 
 class SiteController extends Controller
 {
@@ -149,5 +150,22 @@ class SiteController extends Controller
     public function actionShow5($param){
         $message=["8","6","4"];
         return $this->render('show',['message'=>$message, 'param' => $param]);
+    }
+    public function actionBubble()
+    {
+        $model = new Bubble();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate() && $model->con()) {
+                // form inputs are valid, do something here
+                return $this->render('bubble', [
+                    'model' => $model,
+                ]);
+            }
+        }
+
+        return $this->render('bubble', [
+            'model' => $model,
+        ]);
     }
 }
