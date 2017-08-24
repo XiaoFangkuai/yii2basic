@@ -3,9 +3,10 @@
 namespace app\models;
 
 use Yii;
+use app\components\LogBehavior;
 
 /**
- * This is the model class for table "{{%article}}".
+ * This is the model class for table "article".
  *
  * @property integer $id
  * @property integer $user_id
@@ -16,12 +17,19 @@ use Yii;
  */
 class Article extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            'class' => LogBehavior::className(),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%article}}';
+        return 'article';
     }
 
     /**
@@ -30,7 +38,6 @@ class Article extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'title', 'content', 'created_at', 'updated_at'], 'required'],
             [['user_id'], 'integer'],
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
@@ -45,20 +52,11 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'User ID'),
-            'title' => Yii::t('app', 'Title'),
-            'content' => Yii::t('app', 'Content'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'user_id' => Yii::t('app', '用户id'),
+            'title' => Yii::t('app', '标题'),
+            'content' => Yii::t('app', '内容'),
+            'created_at' => Yii::t('app', '创建时间'),
+            'updated_at' => Yii::t('app', '更新时间'),
         ];
-    }
-
-    /**
-     * @inheritdoc
-     * @return ArticleQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new ArticleQuery(get_called_class());
     }
 }
